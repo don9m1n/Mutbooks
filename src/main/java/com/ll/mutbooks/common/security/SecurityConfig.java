@@ -23,6 +23,11 @@ public class SecurityConfig {
                         .loginPage("/members/login")
                         .defaultSuccessUrl("/")
                 )
+                .logout(logout -> logout
+                        .logoutUrl("/members/logout")
+                        .logoutSuccessUrl("/members/login")
+                        .invalidateHttpSession(true)
+                )
                 .build();
     }
 
