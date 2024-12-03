@@ -47,4 +47,14 @@ public class Member extends BaseEntity {
                 .authLevel(AuthLevel.NORMAL)
                 .build();
     }
+
+    public static Member of(String username, String password, String email, String nickname, AuthLevel authLevel) {
+        return Member.builder()
+                .username(username)
+                .password(password)
+                .email(email)
+                .nickname(nickname)
+                .authLevel(authLevel)
+                .build();
+    }
 }

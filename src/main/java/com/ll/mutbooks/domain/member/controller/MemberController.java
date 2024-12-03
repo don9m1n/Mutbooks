@@ -7,6 +7,7 @@ import com.ll.mutbooks.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,20 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @GetMapping("/login")
+    @PreAuthorize("isAnonymous()")
+    public String login() {
+        return "member/login";
+    }
+
     @GetMapping("/join")
+    @PreAuthorize("isAnonymous()")
     public String joinForm(JoinForm joinForm) {
         return "member/join";
     }
 
     @PostMapping("/join")
+    @PreAuthorize("isAnonymous()")
     public String join(@Valid JoinForm joinForm, BindingResult bindingResult) {
 
         // 형식에 맞지 않는 입력이 들어온 경우

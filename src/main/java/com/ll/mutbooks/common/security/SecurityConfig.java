@@ -19,6 +19,15 @@ public class SecurityConfig {
                         .requestMatchers("/members/**", "/").permitAll()
                         .anyRequest().authenticated()
                 )
+                .formLogin(login -> login
+                        .loginPage("/members/login")
+                        .defaultSuccessUrl("/")
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/members/logout")
+                        .logoutSuccessUrl("/members/login")
+                        .invalidateHttpSession(true)
+                )
                 .build();
     }
 

@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public enum AuthLevel {
 
-    NORMAL, ADMIN;
+    NORMAL, AUTHOR, ADMIN;
 }
