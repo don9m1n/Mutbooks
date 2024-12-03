@@ -19,6 +19,10 @@ public class SecurityConfig {
                         .requestMatchers("/members/**", "/").permitAll()
                         .anyRequest().authenticated()
                 )
+                .formLogin(login -> login
+                        .loginPage("/members/login")
+                        .defaultSuccessUrl("/")
+                )
                 .build();
     }
 
