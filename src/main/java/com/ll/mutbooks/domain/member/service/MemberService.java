@@ -6,6 +6,7 @@ import com.ll.mutbooks.domain.member.dto.JoinForm;
 import com.ll.mutbooks.domain.member.model.Member;
 import com.ll.mutbooks.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,5 +32,11 @@ public class MemberService {
         form.setPassword(passwordEncoder.encode(form.getPassword()));
 
         memberRepository.save(Member.of(form));
+    }
+
+    @Transactional(readOnly = true)
+    public Member getMemberById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 회원입니다."));
     }
 }

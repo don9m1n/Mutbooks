@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+</head>
+<body>
+  <form th:action="@{/posts/write}" method="post" th:object="${postWriteForm}">
+    <!-- toast-ui-editor 내용을 담아서 보내는 부분   -->
+    <input type="hidden" id="content" th:field="*{content}"/>
+    <input type="hidden" id="contentHtml" th:field="*{contentHtml}"/>
+
+    <div>
+      <label for="subject">제목</label>
+      <input type="text" id="subject" th:field="*{subject}">
+      <p th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></p>
+    </div>
+
+    <!-- toast-ui-editor -->
+    <div id="toast-ui-editor"></div>
+
+    <div>
+      <label for="hashtags">해시태그</label>
+      <input type="text" id="hashtags" th:field="*{hashtags}">
+    </div>
+
+    <button type="submit">글 등록</button>
+
+  </form>
+
+  <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+  <script>
+    const editor = new toastui.Editor({
+      el: document.querySelector('#toast-ui-editor'),
+      height: '500px',
+      initialEditType: 'markdown',
+      initialValue: '본문 내용을 입력해 주세요.',
+      previewStyle: 'vertical'
+    });
+
+    document.querySelector('form').addEventListener('submit', () => {
+      document.querySelector('#content').value = editor.getMarkdown().trim();
+      document.querySelector('#contentHtml').value = editor.getHTML().trim();
+    });
+  </script>
+</body>
+</html>
