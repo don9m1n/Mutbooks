@@ -29,5 +29,8 @@ public class BaseEntity {
     @Comment("최종 수정일")
     private LocalDateTime modifiedAt;
 
+    @Comment("삭제 여부")
+    private boolean isDeleted;
+
 
 }

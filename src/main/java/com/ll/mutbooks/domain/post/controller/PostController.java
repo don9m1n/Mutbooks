@@ -25,6 +25,12 @@ public class PostController {
 
     private final PostService postService;
 
+    @PostMapping("/{postId}/delete")
+    public String delete(@PathVariable("postId") Long postId, @AuthenticationPrincipal CustomUserDetails user) {
+        postService.delete(postId, user.getMember().getId());
+        return "redirect:/posts"; // TODO: 글 목록 조회 구현
+    }
+
     @GetMapping("/{postId}")
     public String detail(
             @PathVariable("postId") Long postId,
