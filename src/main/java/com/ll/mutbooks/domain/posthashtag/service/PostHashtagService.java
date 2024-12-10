@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,6 +34,13 @@ public class PostHashtagService {
             PostKeyword postKeyword = postKeywordService.savePostKeyword(hashtag);
             postHashtagRepository.save(PostHashtag.of(post.getAuthor(), post, postKeyword));
         });
+    }
+
+    public List<String> getHashtagList(long postId) {
+        return postHashtagRepository.findAllByPostId(postId)
+                .stream()
+                .map(postHashtag -> postHashtag.getPostKeyword().getContent())
+                .toList();
     }
 
 }

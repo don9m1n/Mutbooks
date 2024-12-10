@@ -10,8 +10,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,6 +24,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PostController {
 
     private final PostService postService;
+
+    @GetMapping("/{postId}")
+    public String detail(
+            @PathVariable("postId") Long postId,
+            @AuthenticationPrincipal CustomUserDetails user,
+            Model model
+    ) {
+
+        // TODO: 글 조회 권한 추가
+        model.addAttribute("postDetailForm", postService.getPostDetail(postId, user.getMember().getId()));
+        return "post/detail";
+    }
 
     @GetMapping("/write")
     @PreAuthorize("isAuthenticated()")
@@ -41,8 +55,10 @@ public class PostController {
             return "post/write";
         }
 
+        long postId;
+
         try {
-            postService.write(form, user.getMember().getId());
+            postId = postService.write(form, user.getMember().getId());
         } catch (UsernameNotFoundException e) {
             log.error("인증 관련 에러 발생: {}", e.getMessage());
             return "member/login";
@@ -51,6 +67,6 @@ public class PostController {
             return "post/write";
         }
 
-        return "redirect:/posts/%d".formatted(1L);
+        return "redirect:/posts/%d".formatted(postId);
     }
 }

@@ -23,11 +23,11 @@ public class Post extends BaseEntity {
     @Comment("제목")
     private String subject;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "text")
     @Comment("본문 내용(Markdown)")
     private String content;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "text")
     @Comment("본문 내용(HTML)")
     private String contentHtml;
 
