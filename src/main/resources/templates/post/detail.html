@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+</head>
+<body>
+  <form th:action="@{/posts/{id}/delete (id=*{postId})}" method="post" th:object="${postDetailForm}">
+    <div>
+      <span th:text="*{subject}"></span>
+    </div>
+
+    <!-- toast-ui-viewer -->
+    <div id="toast-ui-viewer"></div>
+
+    <div>
+      <span th:each="hashtag : *{hashtagList}" th:text="'#' + ${hashtag}" style="margin-right: 3px;"></span>
+    </div>
+
+    <div class="buttons">
+      <a th:href="@{/posts/{id}/modify (id=*{postId})}" class="btn btn-primary">글 수정</a>
+      <button type="submit">글 삭제</button>
+    </div>
+
+  </form>
+
+  <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+  <script th:inline="javascript">
+    const viewer = toastui.Editor.factory({
+      el: document.querySelector("#toast-ui-viewer"),
+      viewer: true,
+      useScript: true,
+      initialValue: /*[[${postDetailForm.content}]]*/ 'default',
+    });
+  </script>
+</body>
+</html>
